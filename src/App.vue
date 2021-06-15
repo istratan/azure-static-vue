@@ -10,6 +10,12 @@
             <img :src="user.avatar_url" :alt="user.name" />
             <p>{{ user.login }}</p>
         </div>
+
+        <hr />
+
+        <h2>Azure Functions Stuff:</h2>
+        <br />
+        <span>Message from Function: {{ functionMessage }}</span>
     </div>
 </template>
 
@@ -20,9 +26,19 @@ export default {
         return {
             userName: "",
             user: {},
+            functionMessage: "",
         };
     },
-
+    mounted() {
+        const self = this;
+        fetch("/api/getProductsFunction")
+            .then((result) => result.json())
+            .then((s) => {
+                console.log("s: ");
+                console.log(s);
+                self.functionMessage = s;
+            });
+    },
     methods: {
         getUser() {
             const self = this;
